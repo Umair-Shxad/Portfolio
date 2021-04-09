@@ -290,7 +290,7 @@ ul {
 #about .photo {
   width: 45%;
   height: auto;
-  background: rgba(255, 255, 255, 0.1) url("../img/photo1.jpg") no-repeat center top;
+  background: rgba(255, 255, 255, 0.1) url("../img/photo.jpg") no-repeat center top;
   background-blend-mode: hard-light;
   background-size: cover;
 }
