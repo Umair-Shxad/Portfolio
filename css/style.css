@@ -290,7 +290,7 @@ ul {
 #about .photo {
   width: 45%;
   height: auto;
-  background: rgba(255, 255, 255, 0.1) url("../img/img-6.jpg") no-repeat center top;
+  background: rgba(255, 255, 255, 0.1) url("../img/photo1.jpg") no-repeat center top;
   background-blend-mode: hard-light;
   background-size: cover;
 }
@@ -889,7 +889,7 @@ ul {
 ***********************************************************/
 .hire-wrapper {
   width: 100%;
-  background: url("../img/altumcode-PuxTq4DwUHE-unsplash.jpg") no-repeat center;
+  background: url("../img/poster.jpg") no-repeat center;
   background-size: cover;
   background-attachment: fixed;
   padding: 50px 0;
@@ -1014,7 +1014,7 @@ ul {
 .form-wrapper .left {
   width: 50%;
   height: auto;
-  background: rgba(255, 255, 255, 0.1) url("../img/img-6.jpg") no-repeat center top;
+  background: rgba(255, 255, 255, 0.1) url("../img/photo1.jpg") no-repeat center top;
   background-blend-mode: hard-light;
   background-size: cover;
 }
