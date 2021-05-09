@@ -747,11 +747,11 @@ ul {
 }
 
 .progress-bar-wrapper .js .title, .progress-bar-wrapper .jquery .title {
-  width: 30%;
+  width: 55%;
 }
 
 .progress-bar-wrapper .js .progress-bar .pb-inner, .progress-bar-wrapper .jquery .progress-bar .pb-inner {
-  width: 30%;
+  width: 55%;
 }
 
 .progress-bar-wrapper .bootstrap .title {
@@ -763,11 +763,11 @@ ul {
 }
 
 .progress-bar-wrapper .sass .title {
-  width: 45%;
+  width: 75%;
 }
 
 .progress-bar-wrapper .sass .progress-bar .pb-inner {
-  width: 45%;
+  width: 75%;
 }
 
 /******************************************
