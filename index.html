@@ -4,520 +4,1035 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Umair Shahzad | V5_Coffee Portfolio</title>
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap"
         rel="stylesheet">
-    <!-- Font-Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- AOS CSS Link -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- My CSS -->
-    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Anton', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        primary: {
+                            DEFAULT: '#a67c52', // Warm Mocha
+                            foreground: '#1a0f0a',
+                        },
+                        background: '#1a0f0a', // Deep Espresso
+                        foreground: '#f5ebe0', // Creamy Foam
+                        muted: {
+                            DEFAULT: '#2d1b14', // Dark Chocolate
+                            foreground: '#d5bdaf', // Soft Latte
+                        },
+                        accent: '#e3b04b', // Golden Caramel
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            html {
+                scroll-behavior: smooth;
+                cursor: crosshair;
+            }
+            body {
+                @apply bg-background text-foreground antialiased selection:bg-primary selection:text-background;
+                overflow-x: hidden;
+            }
+            h1, h2, h3 {
+                @apply font-display uppercase leading-[0.9] tracking-tighter;
+            }
+        }
+
+        @layer components {
+            .glass {
+                @apply bg-white/5 backdrop-blur-xl border border-white/10;
+            }
+            .text-outline {
+                -webkit-text-stroke: 1px currentColor;
+                color: transparent;
+            }
+            .vertical-rail {
+                writing-mode: vertical-rl;
+                text-orientation: mixed;
+            }
+            .marquee-text {
+                @apply whitespace-nowrap font-display uppercase text-[15vw] leading-none opacity-5;
+            }
+            .section-padding {
+                @apply py-24 md:py-40;
+            }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            animation: marquee 15s linear infinite;
+        }
+
+.text-outline {
+  -webkit-text-stroke: 2px rgb(166 124 82 / var(--tw-text-opacity, 1));
+  color: transparent;
+}
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a0f0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a67c52;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #mobile-menu {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
 </head>
 
-<body>
+<body class="v5-theme">
 
-    <!--======================================================
-                                    Navigation
-    =========================================================================-->
+    <!-- Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-8 border-0">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="#" class="text-4xl font-display font-black tracking-tighter group">
+                <span class="text-primary">U</span>
+                <span class="text-outline opacity-50">S</span>
+                <span class="text-primary">.</span>
+            </a>
 
-    <header id="nav">
-        <div class="inner">
-            <nav class="navigation">
+            <div class="hidden md:flex items-center glass rounded-full px-2 py-2 border border-white/10">
+                <nav class="flex">
+                    <a href="#about"
+                        class="nav-link px-6 py-2 text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 text-muted-foreground hover:text-foreground"
+                        data-section="about">About</a>
+                    <a href="#skills"
+                        class="nav-link px-6 py-2 text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 text-muted-foreground hover:text-foreground"
+                        data-section="skills">Skills</a>
+                    <a href="#experience"
+                        class="nav-link px-6 py-2 text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 text-muted-foreground hover:text-foreground"
+                        data-section="experience">Experience</a>
+                    <a href="#projects"
+                        class="nav-link px-6 py-2 text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 text-muted-foreground hover:text-foreground"
+                        data-section="projects">Projects</a>
+                    <a href="#contact"
+                        class="nav-link px-6 py-2 text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 text-muted-foreground hover:text-foreground"
+                        data-section="contact">Contact</a>
+                </nav>
+            </div>
 
-                <a href="#" class="logo">
-                    <span class="f-letter">U</span>
-                    <span class="last-words">mair</span>
-                </a>
-
-                <ul class="menu-list">
-                    <button type="button" class="nav-toggle">
-                        <span class="hamberger"></span>
-                    </button>
-
-                    <li class="list-item active"><a class="scroll" href="#banner" class="list-link">Home</a></li>
-                    <li class="list-item"><a class="scroll" href="#about" class="list-link">About</a></li>
-                    <li class="list-item"><a class="scroll" href="#skill" class="list-link">Skill</a></li>
-                    <li class="list-item"><a class="scroll" href="#projects" class="list-link">Projects</a></li>
-                    <li class="list-item"><a class="scroll" href="#contact" class="list-link">Contact</a></li>
-                </ul>
-            </nav>
+            <button id="menu-toggle"
+                class="w-12 h-12 flex items-center justify-center rounded-full glass border border-white/10 text-primary hover:border-primary/50 transition-all">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
         </div>
     </header>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-[60] bg-background translate-x-full flex flex-col items-center justify-center p-12">
+        <button id="menu-close"
+            class="absolute top-8 right-8 w-16 h-16 flex items-center justify-center rounded-full glass border border-white/10 text-primary">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
 
-    <!--======================================================
-                                    Banner
-    =========================================================================-->
-
-    <section id="banner">
-        <div class="inner">
-            <div class="banner-text" data-aos="fade-up">
-                <h4>HEY! I AM</h4>
-                <h1>Umair Shahzad</h1>
-                <p>Frontend & WordPress Developer creating responsive, high-performance web experiences. Explore my
-                    latest work below.
-                </p>
-            </div>
-
-            <a href="#projects" class="mouse">
-                <div class="arrow arrow-1"></div>
-                <div class="arrow arrow-2"></div>
-                <div class="arrow arrow-3"></div>
-            </a>
-        </div>
-    </section>
-
-
-    <!--======================================================
-                                    About
-    =========================================================================-->
-
-    <article id="about" data-aos="fade-up">
-        <div class="inner">
-
-            <div class="flex-box">
-                <!-- picture -->
-                <header class="photo">
-                </header>
-
-                <!-- about -->
-                <section class="about-me">
-                    <h1>About Me</h1>
-                    <p>I’m a Front-End and WordPress Developer with 3+ years of experience building scalable,
-                        responsive, and high-performance websites. I specialize in custom WordPress themes, ACF blocks,
-                        and GSAP animations, focusing on user experience and clean code. </p>
-
-                    <ul class="about-info">
-                        <li class="d-flex">
-                            <h5>Name:</h5> <span>Umair Shahzad</span>
-                        </li>
-                        <li class="d-none">
-                            <h5>Date of birth:</h5> <span>July 16, 1999</span>
-                        </li>
-                        <li class="d-none">
-                            <h5>Address:</h5> <span>V.P.O Jabbi Shah Dilawar Distt. Chakwal Tehsil
-                                Talagang</span>
-                        </li>
-                        <li class="d-flex">
-                            <h5>Email:</h5> <span>umairshehazad588@gmail.com</span>
-                        </li>
-                        <li class="d-flex">
-                            <h5>Phone:</h5> <span>+923085221814</span>
-                        </li>
-                        <li class="d-flex">
-                            <!-- Resume -->
-                            <a href="Resume/Resume-Umair_Shahzad.pdf" class="r-link">DOWNLOAD RESUME</a>
-                            <!-- Certificate -->
-                            <div class="certificate d-none">
-                                <a href="#c_modal" class="c-link" id="c_link">VIEW CERTIFICATE</a>
-
-                                <!-- Certificate Modal -->
-                                <div id="c_modal" class="modal">
-                                    <div class="modal-content">
-
-                                        <div class="modal-head">
-                                            <button class="close-modal close-c-modal">&times;</button>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <h1>Coming Soon</h1>
-                                        </div>
-                                    </div> <!-- modal-content ends -->
-                                </div> <!-- modal ends -->
-                            </div> <!-- certificate ends -->
-                        </li>
-                    </ul> <!-- about-info ends -->
-                </section> <!-- about-me ends -->
-            </div> <!-- flex-box ends -->
-        </div> <!-- inner ends -->
-    </article>
-
-
-
-    <!--======================================================
-                                    Skill
-    =========================================================================-->
-
-    <section id="skill" data-aos="fade">
-        <div class="inner">
-            <h2>Skill</h2>
-            <div class="flex-box">
-
-                <!-- Skill Cards -->
-                <div class="cards">
-                    <!-- card one -->
-                    <section class="skill-card card-one">
-                        <h3>HTML</h3>
-
-                        <div class="circle">
-                            <div class="progress-left">
-                                <div class="p-inner-l"></div>
-                            </div>
-                            <div class="progress-right">
-                                <div class="p-inner-r"></div>
-                            </div>
-                            <div class="per"><span>80%</span></div>
-                        </div>
-                    </section>
-
-                    <!-- card two -->
-                    <section class="skill-card card-two">
-                        <h3>CSS</h3>
-
-                        <div class="circle">
-                            <div class="progress-left">
-                                <div class="p-inner-l"></div>
-                            </div>
-                            <div class="progress-right">
-                                <div class="p-inner-r"></div>
-                            </div>
-                            <div class="per"><span>80%</span></div>
-                        </div>
-                    </section>
-
-                    <!-- card three -->
-                    <section class="skill-card card-three">
-                        <h3>Bootstrap</h3>
-
-                        <div class="circle">
-                            <div class="progress-left">
-                                <div class="p-inner-l"></div>
-                            </div>
-                            <div class="progress-right">
-                                <div class="p-inner-r"></div>
-                            </div>
-                            <div class="per"><span>75%</span></div>
-                        </div>
-                    </section>
-                </div> <!-- card ends -->
-
-                <!-- Progress bar -->
-                <div class="progress-bar-wrapper">
-                    <!-- Progress bar one -->
-                    <div class="progress html5">
-                        <div class="title">
-                            <h4>HTML5</h4>
-                            <span>80%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar two -->
-                    <div class="progress css3">
-                        <div class="title">
-                            <h4>CSS3</h4>
-                            <span>70%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar three -->
-                    <div class="progress js">
-                        <div class="title">
-                            <h4>JavaScript</h4>
-                            <span>70%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar four -->
-                    <div class="progress jquery">
-                        <div class="title">
-                            <h4>Jquery</h4>
-                            <span>80%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar five -->
-                    <div class="progress bootstrap">
-                        <div class="title">
-                            <h4>Bootsrap</h4>
-                            <span>90%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar six -->
-                    <div class="progress sass">
-                        <div class="title">
-                            <h4>SASS</h4>
-                            <span>80%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-
-                    <!-- Progress bar seven -->
-                    <div class="progress wordpress">
-                        <div class="title">
-                            <h4>WordPress</h4>
-                            <span>80%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-                    <!-- Progress bar eight -->
-                    <div class="progress animations">
-                        <div class="title">
-                            <h4>GSAP / AOS Animations</h4>
-                            <span>80%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="pb-inner"></div>
-                        </div>
-                    </div>
-                </div> <!-- progress-bar-wrapper ends -->
-            </div> <!-- flex-box ends -->
-        </div> <!-- inner ends -->
-    </section> <!-- Skill ends -->
-
-
-
-    <!--======================================================
-                                    Projects
-    =========================================================================-->
-
-    <section id="projects" data-aos="zoom-in">
-        <div class="project-headings">
-            <h2>Projects</h2>
-            <p>A showcase of responsive, high-performance websites I’ve developed using WordPress, ACF, and advanced
-                front-end techniques.</p>
+        <div class="flex flex-col items-center space-y-6">
+            <a href="#about"
+                class="mobile-nav-link text-5xl md:text-7xl font-display uppercase hover:text-primary transition-colors text-outline hover:text-fill-primary"
+                style="-webkit-text-stroke: 1px rgba(245,235,224,0.2)">About</a>
+            <a href="#skills"
+                class="mobile-nav-link text-5xl md:text-7xl font-display uppercase hover:text-primary transition-colors text-outline hover:text-fill-primary"
+                style="-webkit-text-stroke: 1px rgba(245,235,224,0.2)">Skills</a>
+            <a href="#experience"
+                class="mobile-nav-link text-5xl md:text-7xl font-display uppercase hover:text-primary transition-colors text-outline hover:text-fill-primary"
+                style="-webkit-text-stroke: 1px rgba(245,235,224,0.2)">Experience</a>
+            <a href="#projects"
+                class="mobile-nav-link text-5xl md:text-7xl font-display uppercase hover:text-primary transition-colors text-outline hover:text-fill-primary"
+                style="-webkit-text-stroke: 1px rgba(245,235,224,0.2)">Projects</a>
+            <a href="#contact"
+                class="mobile-nav-link text-5xl md:text-7xl font-display uppercase hover:text-primary transition-colors text-outline hover:text-fill-primary"
+                style="-webkit-text-stroke: 1px rgba(245,235,224,0.2)">Contact</a>
         </div>
 
-        <div class="flex-box">
-            <!-- Project One -->
-            <div class="project project-1">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/sterlinglexicon.png" alt="sterlinglexicon img">
-                    </div>
-                    <a href="https://www.sterlinglexicon.com/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Created a fully animated corporate website using reusable ACF components, GSAP, and Three.js for
-                        smooth 3D visuals.</p>
-                </div>
+        <!-- <div class="absolute bottom-12 left-12 right-12 flex justify-between items-end">
+            <div class="flex flex-col text-center w-full">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Get in
+                    touch</span>
+                <a href="mailto:umairshehzad588@gmail.com" class="text-xl font-display">umairshehzad588@gmail.com</a>
             </div>
-
-            <!-- Project Two -->
-            <div class="project project-2">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/actionhotels.png" alt="actionhotels img">
-                    </div>
-                    <a href="https://www.actionhotels.com/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Developed a hotel listing and job portal website with Google Maps clustering, AOS animations, and
-                        filter-based navigation.</p>
-                </div>
-            </div>
-
-            <!-- Project Three -->
-            <div class="project project-3">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/sleepmod.png" alt="sleepmod img">
-                    </div>
-                    <a href="https://sleepmod.com/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Built a WooCommerce-based eCommerce store featuring custom product templates, mega menu, and
-                        advanced filtering options.</p>
-                </div>
-            </div>
-
-            <!-- Project Four -->
-            <div class="project project-4">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/buyownhouse.png" alt="buyownhouse img">
-                    </div>
-                    <a href="https://www.buyown.house/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Developed a multilingual real estate platform with dynamic property filters, reusable ACF
-                        templates, and custom SVG animations.</p>
-                </div>
-            </div>
-
-            <!-- Project Five -->
-            <div class="project project-5">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/careersamericanafoods.png" alt="careersamericanafoods img">
-                    </div>
-                    <a href="https://careers.americanafoods.com/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Implemented custom job listings and Google Maps integration using ACF and CPTUI for dynamic data
-                        management.</p>
-                </div>
-            </div>
-
-            <!-- Project Six -->
-            <div class="project project-6">
-                <div class="project-sc">
-                    <div class="img">
-                        <img src="img/dcode.jpg" alt="dcode img">
-                    </div>
-                    <a href="https://dcode.com.pk/" target="_blank" class="demo">Visit Website</a>
-                </div>
-
-                <div class="description">
-                    <p>Dcode is created with bootstrap. Working with animation library like gsap make the webpage
-                        intractive.</p>
-                </div>
-            </div>
-
-        </div> <!-- flex-box ends -->
-    </section> <!-- Projects ends -->
-
-
-    <!--======================================================
-                                    Hire Me
-    =========================================================================-->
-
-    <div class="hire-wrapper" data-aos="fade">
-        <div class="inner">
-            <div class="h-headings">
-                <h1>Ready to <span>Collaborate</span> and Create</h1>
-                <p>I love transforming concepts into clean, high-performance websites that deliver real results.</p>
-                <a href="mailto:umairshehzad588@gmail.com" class="hire-me">Let’s Work Together</a>
-            </div>
-        </div>
+        </div> -->
     </div>
 
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            <div class="absolute inset-0 flex flex-col justify-center pointer-events-none select-none overflow-hidden">
+                <div class="flex animate-marquee">
+                    <span class="marquee-text">WordPress • React • Performance • Scalable Systems • </span>
+                    <span class="marquee-text">WordPress • React • Performance • Scalable Systems • </span>
+                </div>
+                <div class="flex animate-marquee" style="animation-direction: reverse;">
+                    <span class="marquee-text">Clean Code • Better UX • Fast Websites • Real Solutions • </span>
+                    <span class="marquee-text">Clean Code • Better UX • Fast Websites • Real Solutions • </span>
+                </div>
+            </div>
 
-    <!--======================================================
-                                    Contact
-    =========================================================================-->
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-5xl mx-auto">
+                    <div class="reveal flex flex-col items-start active">
+                        <span class="text-xs font-mono uppercase tracking-[0.5em] text-primary mb-8 block">
+                            Building Scalable Digital Products
+                        </span>
 
-    <div class="inner" id="contact" data-aos="fade-down">
-        <div class="contact-headings">
-            <h1>Contact Me</h1>
-            <p>Have a project in mind or want to collaborate? I’d love to hear from you.</p>
+                        <h1 class="text-[12vw] md:text-[10vw] lg:text-[12vw] leading-[0.95] mb-8">
+                            <span class="block">Umair</span>
+                            <span class="block text-outline opacity-50">Shahzad</span>
+                        </h1>
+
+                        <div class="flex flex-col md:flex-row items-start md:items-end justify-between w-full gap-8">
+                            <p class="text-lg md:text-xl text-muted-foreground max-w-md font-light leading-relaxed">
+                                Crafting digital experiences that bridge the gap between <span
+                                    class="text-foreground font-medium italic">imagination</span> and <span
+                                    class="text-foreground font-medium italic">reality</span>.
+                            </p>
+
+                            <a href="#projects"
+                                class="group flex items-center gap-4 bg-primary text-background px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm transition-all hover:shadow-[0_0_40px_rgba(166,124,82,0.4)] hover:scale-105 active:scale-95">
+                                View Projects
+                                <i data-lucide="arrow-right"
+                                    class="w-5 h-5 group-hover:translate-x-2 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute right-8 bottom-24 hidden lg:block">
+                <span class="vertical-rail text-[10px] font-mono uppercase tracking-[0.5em] text-muted-foreground/50">
+                    Scroll to explore • Selected work
+                </span>
+            </div>
+
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2">
+                <div class="w-px h-24 bg-gradient-to-b from-primary to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-padding relative overflow-hidden bg-muted/30">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12 items-start">
+                    <div class="hidden lg:flex lg:col-span-1 flex-col items-center justify-start pt-4">
+                        <span
+                            class="vertical-rail text-[10px] font-mono uppercase tracking-[0.5em] text-primary font-bold">
+                            About Me • 01
+                        </span>
+                        <div class="w-px h-32 bg-primary/30 mt-8"></div>
+                    </div>
+
+                    <div class="lg:col-span-6">
+                        <div class="reveal-left">
+                            <h2 class="text-6xl md:text-8xl mb-12">
+                                The <span class="text-outline">Vision</span> <br />
+                                Behind the <span class="text-primary italic">Code</span>
+                            </h2>
+
+                            <div class="space-y-8 text-xl md:text-2xl font-light text-muted-foreground leading-relaxed">
+                                <p>
+                                    I am <span class="text-foreground font-medium">Umair Shahzad</span>, a Senior
+                                    Full-Stack Developer with a passion for building digital products that matter.
+                                </p>
+                                <p>
+                                    With over 4 years of experience, I've mastered the art of blending <span
+                                        class="text-foreground font-medium italic">technical precision</span> with <span
+                                        class="text-foreground font-medium italic">creative flair</span>. My work is not
+                                    just about writing code; it's about solving complex problems and creating seamless
+                                    user journeys.
+                                </p>
+                                <p>
+                                    Currently leading the development team at <span
+                                        class="text-foreground font-medium underline decoration-primary underline-offset-8">Sigma
+                                        Digital Solutions</span>, where we push the boundaries of what's possible on the
+                                    web.
+                                </p>
+                                <a href="Resume/Resume-Umair_Shahzad.pdf"
+                                    class="w-max group flex items-center gap-4 bg-primary text-background px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm transition-all hover:shadow-[0_0_40px_rgba(166,124,82,0.4)] hover:scale-105 active:scale-95">
+                                    Download Resume
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true"
+                                        class="lucide lucide-arrow-right w-5 h-5 group-hover:translate-x-2 transition-transform">
+                                        <path d="M5 12h14"></path>
+                                        <path d="m12 5 7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 relative">
+                        <div class="reveal-scale relative group">
+                            <div
+                                class="aspect-[3/4] rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-primary/20 shadow-2xl">
+                                <img src="/img/umair-shahzad.jpg" alt="Umair Shahzad"
+                                    class="w-full h-full object-cover scale-100 group-hover:scale-100 transition-transform duration-700"
+                                    referrerPolicy="no-referrer" />
+                            </div>
+
+                            <div
+                                class="absolute -bottom-12 -left-3 md:-left-12 glass p-8 rounded-3xl border border-white/10 z-20 shadow-xl">
+                                <div class="flex flex-col">
+                                    <span class="text-5xl font-display text-primary">04+</span>
+                                    <span
+                                        class="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mt-2">
+                                        Years Experience
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section-padding relative bg-background">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between mb-24 gap-8">
+                    <div class="max-w-2xl reveal">
+                        <span class="text-xs font-mono uppercase tracking-[0.5em] text-primary mb-6 block">
+                            Capabilities • 02
+                        </span>
+                        <h2 class="text-6xl md:text-8xl">
+                            Technical <br />
+                            <span class="text-outline">Arsenal</span>
+                        </h2>
+                    </div>
+                    <p class="text-xl text-muted-foreground max-w-md font-light leading-relaxed reveal">
+                        A specialized toolkit focused on building robust, scalable, and high-performance web solutions.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-l border-white/10">
+                    <div
+                        class="skill-category p-12 border-r border-b border-white/10 group hover:bg-white/[0.02] transition-colors reveal">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-primary mb-12 block">01 /
+                            Frontend</span>
+                        <div class="space-y-8">
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        HTML5</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">95%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        CSS3/SCSS</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">90%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        JavaScript (ES6+)</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">85%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Tailwind CSS</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">90%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Bootstrap</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">95%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="95"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="skill-category p-12 border-r border-b border-white/10 group hover:bg-white/[0.02] transition-colors reveal">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-primary mb-12 block">02 /
+                            Frameworks & Libraries</span>
+                        <div class="space-y-8">
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        React</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">85%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Next.js</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">80%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        GSAP</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">60%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="60"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        AOS</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">95%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="95"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="skill-category p-12 border-r border-b border-white/10 group hover:bg-white/[0.02] transition-colors reveal">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-primary mb-12 block">03 /
+                            WordPress</span>
+                        <div class="space-y-8">
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Themes</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">95%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        ACF</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">95%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Elementor</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">80%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        WooCommerce</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">85%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="skill-category p-12 border-r border-b border-white/10 group hover:bg-white/[0.02] transition-colors reveal">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-primary mb-12 block">04 /
+                            Backend</span>
+                        <div class="space-y-8">
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        PHP</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">80%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Git</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">85%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4
+                                        class="text-2xl font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                                        Figma</h4>
+                                    <span class="text-xs font-mono text-muted-foreground">80%</span>
+                                </div>
+                                <div class="h-px w-full bg-white/10 relative overflow-hidden">
+                                    <div class="skill-progress absolute inset-0 bg-primary w-0 transition-all duration-1000"
+                                        data-level="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section-padding relative overflow-hidden bg-muted/30">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between mb-24 gap-8">
+                    <div class="max-w-2xl reveal">
+                        <span class="text-xs font-mono uppercase tracking-[0.5em] text-primary mb-6 block">
+                            Timeline • 03
+                        </span>
+                        <h2 class="text-6xl md:text-8xl">
+                            Professional <br />
+                            <span class="text-outline">Evolution</span>
+                        </h2>
+                    </div>
+                    <p class="text-xl text-muted-foreground max-w-md font-light leading-relaxed reveal">
+                        A timeline of my professional growth and the leadership roles I've undertaken.
+                    </p>
+                </div>
+
+                <div class="space-y-32">
+                    <div class="grid lg:grid-cols-12 gap-12 items-start group reveal">
+                        <div class="lg:col-span-3">
+                            <div class="flex items-center gap-4 mb-4">
+                                <span
+                                    class="text-6xl font-display text-primary/20 group-hover:text-primary transition-colors duration-500">01</span>
+                                <div class="h-px flex-1 bg-white/10"></div>
+                            </div>
+                            <span class="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground">2023 –
+                                Present</span>
+                        </div>
+                        <div class="lg:col-span-4">
+                            <h3
+                                class="text-4xl md:text-5xl mb-4 group-hover:translate-x-4 transition-transform duration-500">
+                                Senior WordPress Developer & Team Lead</h3>
+                            <span class="text-xl text-primary font-mono uppercase tracking-widest">@ Sigma Digital
+                                Solutions</span>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <ul class="space-y-6">
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Led a team of developers and delivered multiple client projects on time</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Built scalable WordPress solutions using ACF Flexible Content and reusable
+                                        components</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Developed advanced features like filtering systems, job portals, and Google
+                                        Maps integrations</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Integrated Stripe payment systems for eCommerce platforms</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Optimized performance and improved Core Web Vitals across projects</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-12 items-start group reveal">
+                        <div class="lg:col-span-3">
+                            <div class="flex items-center gap-4 mb-4">
+                                <span
+                                    class="text-6xl font-display text-primary/20 group-hover:text-primary transition-colors duration-500">02</span>
+                                <div class="h-px flex-1 bg-white/10"></div>
+                            </div>
+                            <span class="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground">2021 –
+                                2023</span>
+                        </div>
+                        <div class="lg:col-span-4">
+                            <h3
+                                class="text-4xl md:text-5xl mb-4 group-hover:translate-x-4 transition-transform duration-500">
+                                Frontend Developer</h3>
+                            <span class="text-xl text-primary font-mono uppercase tracking-widest">@
+                                SevenKoncepts</span>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <ul class="space-y-6">
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Developed responsive web applications using React and Next.js</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Integrated APIs and built dynamic UI components</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Implemented animations using GSAP and AOS</span>
+                                </li>
+                                <li class="text-lg text-muted-foreground font-light leading-relaxed flex gap-4">
+                                    <span class="text-primary mt-2">•</span>
+                                    <span>Converted Figma designs into pixel-perfect responsive layouts</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section-padding relative bg-background overflow-hidden">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between mb-24 gap-8">
+                    <div class="max-w-2xl reveal">
+                        <span class="text-xs font-mono uppercase tracking-[0.5em] text-primary mb-6 block">
+                            Portfolio • 04
+                        </span>
+                        <h2 class="text-6xl md:text-8xl">
+                            Selected <br />
+                            <span class="text-outline">Creations</span>
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 reveal">
+                        <button
+                            class="filter-btn text-[10px] font-mono uppercase tracking-widest px-6 py-3 rounded-full border transition-all bg-primary border-primary text-background"
+                            data-filter="All">All</button>
+                        <button
+                            class="filter-btn text-[10px] font-mono uppercase tracking-widest px-6 py-3 rounded-full border transition-all border-white/10 text-muted-foreground hover:border-primary/50"
+                            data-filter="WordPress">WordPress</button>
+                    </div>
+                </div>
+
+                <div id="projects-grid" class="space-y-40">
+                    <!-- Projects will be populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding relative overflow-hidden bg-muted/30">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="reveal">
+                            <span class="text-xs font-mono uppercase tracking-[0.5em] text-primary mb-8 block">
+                                Contact • 05
+                            </span>
+                            <h2 class="text-7xl md:text-9xl mb-12">
+                                Let's <br />
+                                <span class="text-outline">Connect</span>
+                            </h2>
+
+                            <p
+                                class="text-2xl md:text-3xl font-light text-muted-foreground max-w-xl leading-tight mb-16">
+                                Have a project in mind? Let's build something <span
+                                    class="text-foreground font-medium italic">extraordinary</span> together.
+                            </p>
+
+                            <div class="flex flex-col gap-8">
+                                <a href="mailto:umairshehzad588@gmail.com"
+                                    class="group flex items-center gap-3 sm:gap-6 text-xl md:text-5xl font-display hover:text-primary transition-colors">
+                                    <i data-lucide="mail" class="w-8 h-8 sm:w-10 sm:h-10 text-primary"></i>
+                                    umairshehzad588@gmail.com
+                                    <i data-lucide="arrow-right"
+                                        class="w-8 h-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all"></i>
+                                </a>
+
+                                <a href="tel:+92308-5221814"
+                                    class="group flex items-center gap-3 sm:gap-6 text-xl md:text-5xl font-display hover:text-primary transition-colors">
+                                    <i data-lucide="phone" class="w-8 h-8 sm:w-10 sm:h-10 text-primary"></i>
+                                    +92308-5221814
+                                    <i data-lucide="arrow-right"
+                                        class="w-8 h-8 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="reveal glass p-6 md:p-12 rounded-[3rem] border border-white/10 shadow-2xl">
+                            <h3 class="text-2xl font-display uppercase mb-8">Social Presence</h3>
+                            <div class="grid sm:grid-cols-2 gap-6 mb-12">
+                                <a href="https://linkedin.com/in/umair-shxad-7068a2207" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="flex flex-col p-8 glass rounded-3xl border border-white/5 hover:border-primary/50 transition-all group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-linkedin mb-4 text-muted-foreground group-hover:text-primary transition-colors"
+                                        aria-hidden="true">
+                                        <path
+                                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                        </path>
+                                        <rect width="4" height="12" x="2" y="9"></rect>
+                                        <circle cx="4" cy="4" r="2"></circle>
+                                    </svg>
+                                    <span class="text-xs font-mono uppercase tracking-widest">LinkedIn</span>
+                                </a>
+                                <a href="https://github.com/Umair-Shxad" target="_blank" rel="noopener noreferrer"
+                                    class="flex flex-col p-8 glass rounded-3xl border border-white/5 hover:border-primary/50 transition-all group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-github mb-4 text-muted-foreground group-hover:text-primary transition-colors"
+                                        aria-hidden="true">
+                                        <path
+                                            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4">
+                                        </path>
+                                        <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                    </svg>
+                                    <span class="text-xs font-mono uppercase tracking-widest">GitHub</span>
+                                </a>
+                            </div>
+
+                            <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                                <p class="text-sm text-muted-foreground leading-relaxed">
+                                    I'm currently available for freelance, remote roles, and full-time opportunities.
+                                    Let's discuss your next project.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-24 border-t border-white/5 bg-background">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-12">
+                <div class="flex flex-col">
+                    <span class="text-8xl font-display text-primary mb-8">US.</span>
+                    <p class="text-xs font-mono uppercase tracking-[0.5em] text-muted-foreground">
+                        © <span id="year"></span> Umair Shahzad • All rights reserved.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-end">
+                    <p class="text-xs font-mono uppercase tracking-widest text-muted-foreground/50">
+                        Brewed with Passion & Code
+                    </p>
+                </div>
+            </div>
         </div>
-
-        <div class="flex-box contact-card-wrap">
-            <!-- Contact-Card One -->
-            <div class="contact-card">
-                <div class="icon">
-                    <span><i class="fa  fa-envelope"></i></span>
-                </div>
-
-                <h4>Gmail</h4>
-                <a href="mmailto:umairshehzad588@gmail.com" target="_blank">Umairshehazad588@gmail.com</a>
-            </div>
-
-            <!-- Contact-Card Two -->
-            <div class="contact-card">
-                <div class="icon">
-                    <span><i class="fa fa-whatsapp"></i></span>
-                </div>
-
-                <h4>WhatsApp</h4>
-                <a href="https://wa.link/s7f1ro" target="_blank">+923085221814</a>
-            </div>
-
-            <!-- Contact-Card Three -->
-            <div class="contact-card d-none">
-                <div class="icon">
-                    <span><i class="fa fa-map-signs"></i></span>
-                </div>
-
-                <h4>Address</h4>
-                <p>V.P.O Jabbi Shah Dilawar Distt. Chakwal Tehsil
-                    Talagang</p>
-            </div>
-
-            <!-- Contact-Card Four -->
-            <div class="contact-card">
-                <div class="icon">
-                    <span><i class="fa fa-linkedin"></i></span>
-                </div>
-
-                <h4>Linked In</h4>
-                <a href="https://www.linkedin.com/in/umair-shxad-7068a2207/" target="_blank">Umair Shxad
-                </a>
-            </div>
-        </div> <!-- flex-box ends -->
-
-        <!-- Contact Form -->
-        <div class="form-wrapper">
-            <div class="flex-box">
-                <div class="left">
-                    <div class="img"></div>
-                </div>
-
-                <div class="right">
-                    <form action="#">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                        <input type="text" placeholder="Subject" required>
-
-                        <textarea name="" id="" cols="30" rows="7" placeholder="Message"></textarea>
-
-                        <input type="submit" value="Send Message" class="send-btn" name="" id="">
-                    </form>
-                </div>
-            </div> <!-- flex-box ends -->
-        </div> <!-- form-wrapper ends -->
-    </div> <!-- inner ends -->
-
-    <!--======================================================
-                                    Footer
-    =========================================================================-->
-
-    <footer id="footer">
-        <div class="social-icons">
-            <a href="mailto:umairshehzad588@gmail.com" target="_blank"><i class="fa fa-envelope"></i></a>
-            <a href="https://github.com/Umair-Shxad" target="_blank"><i class="fa fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/umair-shxad-7068a2207/" target="_blank"><i
-                    class="fa fa-linkedin"></i></a>
-        </div>
-        <p class="copyright">&copy; 2025 Umair Shahzad | All Rights Reserved</p>
     </footer>
 
-
-
-
-    <!-- Jquery link -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-
-    <!-- AOS Js Link -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({
-            offset: 300,
-            duration: 800
+        // Constants
+        const PROJECTS = [
+            {
+                id: 'montefrio-group',
+                title: 'Montefrio Group',
+                description: 'Custom WordPress website for a premium Colombian fruits exporter. Started in AI Studio, converted to HTML, then transformed into a fully dynamic WordPress theme using AI tools and custom development with ACF.',
+                image: '/img/montefriogroup.png',          // ← Replace with your actual image path
+                techStack: ['AI Studio', 'AI-assisted Dev', 'WordPress', 'ACF', 'Custom Theme'],
+                category: 'WordPress',
+                liveUrl: 'https://montefriogroup.com/'
+            },
+            {
+                id: 'buyownhouse',
+                title: 'BuyOwn House',
+                description: 'Converted designer’s Figma designs into a multilingual real estate platform in Dubai with advanced property search, filtering, SVG animations, and dynamic ACF templates.',
+                image: '/img/buyownhouse.png',             // ← Replace with your actual image path
+                techStack: ['Figma to WordPress', 'ACF', 'Polylang', 'SVG Animations', 'Bootstrap'],
+                category: 'WordPress',
+                liveUrl: 'https://buyown.house/'
+            },
+            {
+                id: 'sleepmod',
+                title: 'Sleepmod',
+                description: 'Transformed Figma designs into a modern WooCommerce e-commerce store for premium mattresses and bedding in Dubai & UAE. Includes custom mega menu, unique product templates, and advanced filtering with ACF.',
+                image: '/img/sleepmod.png',                // ← Replace with your actual image path
+                techStack: ['Figma to WordPress', 'WooCommerce', 'ACF', 'Custom Mega Menu', 'jQuery'],
+                category: 'WordPress',
+                liveUrl: 'https://sleepmod.com/'
+            },
+            {
+                id: 'sterling-lexicon',
+                title: 'Sterling Lexicon',
+                description: 'Developed a sleek, high-end website from provided Figma designs for a global relocation company. Features reusable ACF components, smooth GSAP animations, and Three.js 3D integration.',
+                image: '/img/sterlinglexicon.png',         // ← Replace with your actual image path
+                techStack: ['Figma to WordPress', 'ACF', 'GSAP', 'Three.js', 'Bootstrap'],
+                category: 'WordPress',
+                liveUrl: 'https://www.sterlinglexicon.com/'
+            },
+        ];
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-4', 'glass');
+                navbar.classList.remove('py-8');
+            } else {
+                navbar.classList.add('py-8');
+                navbar.classList.remove('py-4', 'glass');
+            }
         });
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        menuToggle.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+        menuClose.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+        });
+
+        // Project Filtering & Rendering
+        const projectsGrid = document.getElementById('projects-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        function renderProjects(filter = 'All') {
+            const filtered = filter === 'All'
+                ? PROJECTS
+                : PROJECTS.filter(p => p.category === filter);
+
+            projectsGrid.innerHTML = '';
+
+            filtered.forEach((project, idx) => {
+                const isEven = idx % 2 === 0;
+                const projectEl = document.createElement('div');
+                projectEl.className = `grid lg:grid-cols-12 gap-12 items-center reveal ${!isEven ? 'lg:flex-row-reverse' : ''}`;
+
+                projectEl.innerHTML = `
+            <div class="lg:col-span-7 ${!isEven ? 'lg:order-2' : ''}">
+                <a href="${project.liveUrl}" target="_blank" class="block relative aspect-[16/10] rounded-[2rem] overflow-hidden group border border-primary/10">
+                    <img src="${project.image}" alt="${project.title}" 
+                         class="w-full h-full object-cover object-top group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" 
+                         referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <div class="w-20 h-20 bg-primary text-background rounded-full flex items-center justify-center font-bold uppercase tracking-tighter text-sm -rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                            View Live
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="lg:col-span-5 ${!isEven ? 'lg:order-1' : ''}">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-xs font-mono text-primary uppercase tracking-widest">${project.category}</span>
+                    <div class="h-px w-12 bg-primary/30"></div>
+                </div>
+                <h3 class="text-5xl md:text-6xl mb-8 hover:text-primary transition-colors italic">${project.title}</h3>
+                <p class="text-xl text-muted-foreground font-light leading-relaxed mb-10">${project.description}</p>
+                
+                <div class="flex flex-wrap gap-3 mb-12">
+                    ${project.techStack.map(tech => `
+                        <span class="text-[10px] font-mono uppercase tracking-widest px-4 py-2 border border-white/10 rounded-lg bg-white/5">
+                            ${tech}
+                        </span>
+                    `).join('')}
+                </div>
+
+                <a href="${project.liveUrl}" target="_blank" 
+                   class="inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest group/link">
+                    Explore Case Study
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform"></i>
+                </a>
+            </div>
+        `;
+
+                projectsGrid.appendChild(projectEl);
+            });
+
+            lucide.createIcons();
+            observeElements();   // your existing reveal observer
+        }
+
+        // Filter buttons event listeners
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-primary', 'border-primary', 'text-background');
+                    b.classList.add('border-white/10', 'text-muted-foreground');
+                });
+                btn.classList.add('bg-primary', 'border-primary', 'text-background');
+                btn.classList.remove('border-white/10', 'text-muted-foreground');
+
+                renderProjects(btn.dataset.filter);
+            });
+        });
+
+        // Intersection Observer for Reveal Animations
+        function observeElements() {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+
+                        // Special handling for skill bars
+                        if (entry.target.classList.contains('skill-category')) {
+                            const bars = entry.target.querySelectorAll('.skill-progress');
+                            bars.forEach(bar => {
+                                bar.style.width = bar.dataset.level + '%';
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-scale, .skill-category').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Active Section Detection
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('bg-primary', 'text-background');
+                link.classList.add('text-muted-foreground');
+                if (link.dataset.section === current) {
+                    link.classList.add('bg-primary', 'text-background');
+                    link.classList.remove('text-muted-foreground');
+                }
+            });
+        });
+
+        // Initial Render
+        renderProjects();
     </script>
-    <!-- my js -->
-    <script src="js/custom.js"></script>
 </body>
 
 </html>
