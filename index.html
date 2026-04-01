@@ -731,6 +731,8 @@
             </div>
         </section>
 
+
+
         <!-- Contact Section -->
         <section id="contact" class="section-padding relative overflow-hidden bg-muted/30">
             <div class="container mx-auto px-6">
@@ -807,11 +809,44 @@
                                 </a>
                             </div>
 
+                            <!-- Message Form -->
                             <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
-                                <p class="text-sm text-muted-foreground leading-relaxed">
-                                    I'm currently available for freelance, remote roles, and full-time opportunities.
-                                    Let's discuss your next project.
-                                </p>
+                                <h4 class="text-lg font-display uppercase mb-6">Send a Message</h4>
+
+                                <form id="contact-form" class="space-y-4" name="contact" method="POST"
+                                    data-netlify="true" netlify-honeypot="bot-field">
+
+                                    <!-- Honeypot field (for spam protection) -->
+                                    <div class="hidden">
+                                        <input type="text" name="bot-field" tabindex="-1" autocomplete="off">
+                                    </div>
+
+                                    <div>
+                                        <input type="text" id="name" name="name" placeholder="Your Name" required
+                                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-colors">
+                                        <p id="name-error" class="text-red-400 text-xs mt-1 hidden"></p>
+                                    </div>
+
+                                    <div>
+                                        <input type="email" id="email" name="email" placeholder="Your Email" required
+                                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-colors">
+                                        <p id="email-error" class="text-red-400 text-xs mt-1 hidden"></p>
+                                    </div>
+
+                                    <div>
+                                        <textarea id="message" name="message" placeholder="Your Message" rows="4"
+                                            required
+                                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-colors resize-none"></textarea>
+                                        <p id="message-error" class="text-red-400 text-xs mt-1 hidden"></p>
+                                    </div>
+
+                                    <button type="submit" id="submit-btn"
+                                        class="w-full bg-primary text-primary-foreground font-mono uppercase tracking-widest py-4 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group disabled:opacity-70">
+                                        <span id="btn-text">Send Message</span>
+                                        <i data-lucide="send"
+                                            class="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -1037,6 +1072,161 @@
 
         // Initial Render
         renderProjects();
+    </script>
+
+    <script>
+        // Professional Contact Form Validation for Netlify
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+
+            // Error elements
+            const nameError = document.getElementById('name-error');
+            const emailError = document.getElementById('email-error');
+            const messageError = document.getElementById('message-error');
+
+            // Real-time validation
+            function showError(element, message) {
+                element.textContent = message;
+                element.classList.remove('hidden');
+            }
+
+            function clearError(element) {
+                element.classList.add('hidden');
+            }
+
+            // Validation functions
+            const validateName = (value) => value.trim().length < 2 ? "Name must be at least 2 characters long" : "";
+            const validateEmail = (value) => {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return !regex.test(value) ? "Please enter a valid email address" : "";
+            };
+            const validateMessage = (value) => value.trim().length < 10 ? "Message must be at least 10 characters" : "";
+
+            // Attach real-time validation
+            document.getElementById('name').addEventListener('input', () => {
+                const error = validateName(document.getElementById('name').value);
+                error ? showError(nameError, error) : clearError(nameError);
+            });
+
+            document.getElementById('email').addEventListener('input', () => {
+                const error = validateEmail(document.getElementById('email').value);
+                error ? showError(emailError, error) : clearError(emailError);
+            });
+
+            document.getElementById('message').addEventListener('input', () => {
+                const error = validateMessage(document.getElementById('message').value);
+                error ? showError(messageError, error) : clearError(messageError);
+            });
+
+            // Form Submit Handler
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const nameField = document.getElementById('name');
+                const emailField = document.getElementById('email');
+                const messageField = document.getElementById('message');
+
+                const name = nameField.value.trim();
+                const email = emailField.value.trim();
+                const message = messageField.value.trim();
+
+                // Clear all errors first
+                [nameError, emailError, messageError].forEach(clearError);
+
+                // Validate all fields
+                let isValid = true;
+
+                if (validateName(name)) {
+                    showError(nameError, validateName(name));
+                    nameField.classList.add('border-red-400');
+                    isValid = false;
+                } else {
+                    nameField.classList.remove('border-red-400');
+                }
+
+                if (validateEmail(email)) {
+                    showError(emailError, validateEmail(email));
+                    emailField.classList.add('border-red-400');
+                    isValid = false;
+                } else {
+                    emailField.classList.remove('border-red-400');
+                }
+
+                if (validateMessage(message)) {
+                    showError(messageError, validateMessage(message));
+                    messageField.classList.add('border-red-400');
+                    isValid = false;
+                } else {
+                    messageField.classList.remove('border-red-400');
+                }
+
+                if (!isValid) return;
+
+                // Loading state
+                const originalText = btnText.textContent;
+                submitBtn.disabled = true;
+                btnText.innerHTML = `
+            <span class="inline-block animate-spin mr-2">⟳</span>
+            Sending...
+        `;
+
+                try {
+                    const formData = new FormData(form);
+
+                    const response = await fetch('/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams(formData).toString()
+                    });
+
+                    if (response.ok) {
+                        // Success - Show professional success message
+                        form.reset();
+
+                        const successDiv = document.createElement('div');
+                        successDiv.id = 'success-message';
+                        successDiv.className = `mt-6 p-5 bg-green-500/10 border border-green-500/30 rounded-2xl text-center transition-all duration-300`;
+                        successDiv.innerHTML = `
+                    <div class="flex items-center justify-center gap-3 text-green-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="font-medium">Message sent successfully!</span>
+                    </div>
+                    <p class="text-green-400/80 text-sm mt-2">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                `;
+
+                        form.parentNode.insertBefore(successDiv, form.nextSibling);
+
+                        // Auto remove success message after 6 seconds
+                        setTimeout(() => {
+                            if (successDiv) successDiv.style.opacity = '0';
+                            setTimeout(() => successDiv.remove(), 400);
+                        }, 6000);
+
+                    } else {
+                        throw new Error('Failed to submit');
+                    }
+                } catch (err) {
+                    // Professional error message
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = `mt-6 p-5 bg-red-500/10 border border-red-500/30 rounded-2xl text-center text-red-400`;
+                    errorDiv.innerHTML = `
+                <p class="font-medium">Failed to send message</p>
+                <p class="text-sm mt-1">Please try again or contact me directly via email.</p>
+            `;
+                    form.parentNode.insertBefore(errorDiv, form.nextSibling);
+
+                    setTimeout(() => errorDiv.remove(), 5000);
+                } finally {
+                    // Reset button
+                    submitBtn.disabled = false;
+                    btnText.textContent = originalText;
+                }
+            });
+        });
     </script>
 </body>
 
